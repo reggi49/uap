@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+{% include "slider.html" %}
+{% include "mostread.html" %}
+{% include "carousel.html" %}
+<section id="content">
+            <div class="container">
+
+                <div class="l_content">
+
+                    <div class="box">
+
+                        <div class="title_box">BERITA <span>TERBARU</span></div>
+
+                        <div class="list vertical middle">
+                          {% for obj in object_list %}
+                          {% url "posts:post_detail" id=obj.id %}
+                            <article>
+                                <a href="{{ obj.get_absolute_url }}">
+                                    <span class="ratiobox ratio_4_3 box_img">
+                                        <span class="ratiobox_content lqd">
+                                          {% if obj.image %}
+                                            <img src="{{ obj.image.url }}" alt="">
+                                            {% endif %}
+                                        </span>
+                                    </span>
+                                </a>
+                                <span class="box_text">
+                                    <span class="date">{{ obj.updated|timesince }} ago</span>
+                                    <a href="#">
+                                        <h2 class="title">{{ obj.title}}</h2>
+                                    </a>
+                                    <p>{{ obj.content|truncatechars:20 }}</p>
+                                </span>
+                            </article>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div>
+      <div class="r_content">
+        {% include "box/box_satu.html" %}
+        {% include "box/box_dua.html" %}
+        {% include "box/box_tiga.html" %}
+        <div class="clearfix"></div>
+      </div>
+</section>
+{% endblock content %}

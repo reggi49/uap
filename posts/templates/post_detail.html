@@ -1,0 +1,22 @@
+    {% extends "base.html" %}
+
+    {% block head_title %}
+    {{ instance.title }} | {{ block.super }}
+    {% endblock head_title %}
+
+    <style>
+    {% block style %}
+
+    {% endblock style %}
+    </style>
+
+    {% block content %}
+    <h2>{{title}}</h2>
+
+    {{ instance.title }}<br>
+    {{ instance.content }}<br>
+    {{ instance.timestamp }}<br>
+    {{ instance.updated }}<br>
+    {{ instance.id }}<br>
+
+    {% endblock content %}

@@ -1,0 +1,236 @@
+.morphsearch {
+	min-height: 25px;
+	width: 25px;
+	position: absolute;
+	top: 15px;
+	right: 55px;
+	-webkit-transform-origin: 100% 0;
+	transform-origin: 100% 0;
+	-webkit-transition-property: min-height, width, top, right;
+	transition-property: min-height, width, top, right;
+	-webkit-transition-duration: 0.5s;
+	transition-duration: 0.5s;
+	-webkit-transition-timing-function: cubic-bezier(0.7,0,0.3,1);
+	transition-timing-function: cubic-bezier(0.7,0,0.3,1);
+	z-index: 2;
+	@media (min-width: $screen-xsl-min) {
+		top: 27px;
+		right: 10px;
+		.fixed & {
+			top: 17px;
+		}
+	}
+	@media (min-width: $screen-sm-min) {
+		top: 40px;
+	}
+	&.open {
+		width: 100%;
+		min-height: 100%;
+		right: 0px;
+		top: 0;
+		// position: fixed;
+		z-index: 1000;
+		color: #fff;
+		.morphsearch-form {
+			width: 87%;
+			height: 160px;
+			height: auto;
+			z-index: 3;
+			padding: 0 0 0 10px;
+			-webkit-transform: translate3d(0,3em,0);
+			transform: translate3d(0,3em,0);
+			.is_stuck & {
+				-webkit-transform: translate3d(0,6em,0);
+				transform: translate3d(0,6em,0);
+			}
+		}
+		.morphsearch-input {
+			background: none;
+			cursor: text;
+			text-indent: inherit;
+			width: 75%;
+			font-size: 3em;
+			@media (min-width: $screen-md-min) {
+				width: 85%;
+				font-size: 6em;
+			}
+			@media (max-width: $screen-xs-max) {
+				width: 70%;
+				font-size: 1.5em;
+			}
+		}
+		.morphsearch-submit {
+			pointer-events: auto;
+			opacity: 1;
+			-webkit-transform: translate3d(0,0,0) scale3d(1,1,1);
+			transform: translate3d(0,0,0) scale3d(1,1,1);
+			-webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+			transition: opacity 0.3s, transform 0.3s;
+			-webkit-transition-delay: 0.5s;
+			transition-delay: 0.5s;
+		}
+		.morphsearch-close {
+			opacity: 1;
+			pointer-events: auto;
+			-webkit-transform: scale3d(1,1,1);
+			transform: scale3d(1,1,1);
+			-webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+			transition: opacity 0.3s, transform 0.3s;
+			-webkit-transition-delay: 0.5s;
+			transition-delay: 0.5s;
+			z-index: 3;
+		}
+	}
+}
+.morphsearch-form {
+	width: 100%;
+	height: 25px;
+	// margin: 0 auto;
+	position: relative;
+	-webkit-transition-property: width, height, -webkit-transform;
+	transition-property: width, height, transform;
+	-webkit-transition-duration: 0.5s;
+	transition-duration: 0.5s;
+	-webkit-transition-timing-function: cubic-bezier(0.7,0,0.3,1);
+	transition-timing-function: cubic-bezier(0.7,0,0.3,1);
+}
+.morphsearch-input {
+	width: 100%;
+	height: 100%;
+	font-weight: 700;
+	border: none;
+	background: url(../images/search_light.png) no-repeat right center;
+	background-size: contain !important;
+	font-size: 0.8em;
+	cursor: pointer;
+	-webkit-transition: font-size 0.5s cubic-bezier(0.7,0,0.3,1);
+	transition: font-size 0.5s cubic-bezier(0.7,0,0.3,1);
+	text-indent: 999px;
+	.is_stuck & {
+		background: url(../images/search_light.png) no-repeat right center;
+	}
+	@media (max-width: $screen-sm-max) {
+		background: url(../images/search_light.png) no-repeat right center;
+	}
+}
+.morphsearch-input::-ms-clear { /* remove cross in IE */
+    display: none;
+}
+.morphsearch.hideInput .morphsearch-input {
+	color: transparent;
+	-webkit-transition: color 0.3s;
+	transition: color 0.3s;
+}
+/* placeholder */
+.morphsearch-input::-webkit-input-placeholder {
+	color: #c2c2c2;
+}
+.morphsearch-input:-moz-placeholder {
+	color: #c2c2c2;
+}
+.morphsearch-input::-moz-placeholder {
+	color: #c2c2c2;
+}
+.morphsearch-input:-ms-input-placeholder {
+	color: #c2c2c2;
+}
+/* hide placeholder when active in Chrome */
+.gn-search:focus::-webkit-input-placeholder {
+	color: transparent;
+}
+.morphsearch-input:focus,
+.morphsearch-submit:focus {
+	outline: none;
+}
+.morphsearch-submit {
+	position: absolute;
+	width: 60px;
+	height: 60px;
+	text-indent: 100px;
+	overflow: hidden;
+	right: 0;
+	top: 0;
+	background: transparent url(../images/search_light.png) no-repeat center center;
+	background-size: 100%;
+	border: none;
+	pointer-events: none;
+	transform-origin: 50% 50%;
+	opacity: 0;
+	-webkit-transform: translate3d(-30px,-50%,0) scale3d(0,0,1);
+	transform: translate3d(-30px,-50%,0) scale3d(0,0,1);
+	-webkit-transition: all 0.5s cubic-bezier(0.7,0,0.3,1);
+	transition: all 0.5s cubic-bezier(0.7,0,0.3,1);
+	@media (min-width: $screen-md-min) {
+		width: 80px;
+		height: 80px;
+		top: 20%;
+	}
+	@media (max-width: $screen-xs-max) {
+		width: 32px;
+		height: 32px;
+		right: 25px;
+	}
+}
+.morphsearch-close {
+	width: 36px;
+	height: 36px;
+	position: absolute;
+	right: 1em;
+	top: 1em;
+	overflow: hidden;
+	text-indent: 100%;
+	cursor: pointer;
+	pointer-events: none;
+	opacity: 0;
+	-webkit-transform: scale3d(0,0,1);
+	transform: scale3d(0,0,1);
+}
+.morphsearch-close::before,
+.morphsearch-close::after {
+	content: '';
+	position: absolute;
+	width: 2px;
+	height: 100%;
+	top: 0;
+	left: 50%;
+	border-radius: 3px;
+	background: $kuler2;
+}
+.morphsearch-close:hover.morphsearch-close::before,
+.morphsearch-close:hover.morphsearch-close::after {
+	opacity: 1;
+}
+.morphsearch-close::before {
+	-webkit-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+.morphsearch-close::after {
+	-webkit-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+}
+
+/* Overlay */
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	pointer-events: none;
+	-webkit-transition: opacity 0.5s;
+	transition: opacity 0.5s;
+	-webkit-transition-timing-function: cubic-bezier(0.7,0,0.3,1);
+	transition-timing-function: cubic-bezier(0.7,0,0.3,1);
+	z-index: 4;
+	@include background-opacity(#000, 0.9);
+}
+.morphsearch.open ~ .overlay {
+	opacity: 1;
+}
+body.unscroll {
+	overflow: hidden;
+}
+.unscroll .overlay {
+	pointer-events: auto;
+}
