@@ -1,0 +1,95 @@
+@charset "UTF-8";
+/* CSS Document */
+
+@font-face {
+    font-family: 'museo';
+    src: url('../fonts/museo_700.eot');
+    src: url('../fonts/museo_700.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/museo_700.woff') format('woff'),
+         url('../fonts/museo_700.ttf') format('truetype'),
+         url('../fonts/museo_700.svg#museo_700') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@charset "UTF-8";
+
+@font-face {
+  font-family: "kedaikopi";
+  src:url("../fonts/kedaikopi.eot");
+  src:url("../fonts/kedaikopi.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/kedaikopi.woff") format("woff"),
+    url("../fonts/kedaikopi.ttf") format("truetype"),
+    url("../fonts/kedaikopi.svg#kedaikopi") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+[data-icon]:before {
+  font-family: "kedaikopi" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  vertical-align: text-top;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: "kedaikopi" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  vertical-align: text-top;
+}
+
+.icon-twitter:before {
+  content: "\61";
+}
+.icon-line-messenger:before {
+  content: "\62";
+}
+.icon-instagram:before {
+  content: "\63";
+}
+.icon-facebook:before {
+  content: "\64";
+}
+.icon-gplus:before {
+  content: "\65";
+}
+.icon-youtube:before {
+  content: "\66";
+}
+.icon-whatsapp:before {
+  content: "\67";
+}
+.icon-chart:before {
+  content: "\68";
+}
+.icon-play:before {
+  content: "\69";
+}
+.icon-photo:before {
+  content: "\6a";
+}
+.icon-rss:before {
+  content: "\6b";
+}
+
+
+
+
+
+
+

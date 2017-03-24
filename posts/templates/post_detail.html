@@ -11,12 +11,42 @@
     </style>
 
     {% block content %}
-    <h2>{{title}}</h2>
+    <section id="content">
+                <div class="container">
 
-    {{ instance.title }}<br>
-    {{ instance.content }}<br>
-    {{ instance.timestamp }}<br>
-    {{ instance.updated }}<br>
-    {{ instance.id }}<br>
+                    <div class="l_content">
 
-    {% endblock content %}
+                        <article class="box detail_text content-markdown post-detail-item">
+
+                            <h1 class="title">
+                                {{ instance.title }}
+                            </h1>
+                            <span class="date mt5">{{ instance.updated }} |
+                              <a href="https://www.facebook.com/sharer/sharer.php?{{request.build_absolute_uri}}"> Share on Facebook </a>
+                              <a href="https://twitter.com/home?status={{share_string}}%20{{request.build_absolute_uri}}">Share on Twitter</a>
+                              <a href='https://plus.google.com/share?url={{request.build_absolute_uri}}'></a>
+
+
+                            <hr>
+
+                            {{ instance.get_markdown }}
+
+                        </article>
+                        <p class="lead">Comments</p>
+                        {% for comment in comments %}
+                          <div class="">
+                            {{ comment.user }} says {{comment.content}}
+                          </br>
+                          <small>{{ comment.timestamp|timesince }} ago </small>
+                        {% endfor %}
+                        </hr>
+                    </div>
+<div class="r_content">
+  {% include "box/box_satu.html" %}
+  {% include "box/box_dua.html" %}
+  {% include "box/box_tiga.html" %}
+        </div>
+          <div class="clearfix"></div>
+    </div>
+</section>
+{% endblock content %}

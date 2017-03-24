@@ -1,3 +1,8 @@
+{% extends "base_admin.html" %}
+{% load crispy_forms_tags %}
+{% block head_extra %}
+{{ form.media }}
+{% endblock head_extra %}
 
 {% block content %}
 <html>
@@ -5,7 +10,7 @@
     <h2>{{title}} Form</h2>
 
   <form method = 'POST' action="" enctype="multipart/form-data">{% csrf_token %}
-    {{form.as_p}}
+    {{ form|crispy }}
     <input type="submit" value='Create Post'/>
   </form>
   </body>

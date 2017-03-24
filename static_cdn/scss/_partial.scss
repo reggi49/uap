@@ -1,0 +1,238 @@
+//--------------------------------------------------------------------------------
+//VARIABLE
+//--------------------------------------------------------------------------------
+$link_color: #111;
+$link_hover_color: #d69837;
+$grey: #dcdcdc;
+$grid_col: 12; //JUMLAH GRID KOLOM
+
+// NUANSA WARNA
+$kuler1: #6d081b;
+$kuler2: #f08519;
+
+// FONTS
+$museo: museo;
+
+//--------------------------------------------------------------------------------
+//HELPER
+//--------------------------------------------------------------------------------
+$padding: pd;
+$padding_right: pr;
+$padding_left: pl;
+$padding_top: pt;
+$padding_bottom: pb;
+$margin_bot: mb;
+$margin_right: mr;
+$margin_left: ml;
+$margin_top: mt;
+$margin: m;
+
+$value_list: (
+  0     0px,
+  5     5px,
+  10    10px,
+  15    15px,
+  20    20px,
+  30    30px
+);
+
+$fontsize_prefix: f;
+
+$fontsize_value_list: (
+  10    10px,
+  11    11px,
+  12    12px,
+  13    13px,
+  14    14px,
+  15    15px,
+  16    16px,
+  18    18px,
+  20    20px,
+  22    22px,
+  24    24px
+);
+
+// WARNA SOSMED
+$social-colors: (
+  fb:    #39579a,
+  tw:    #1aa9e4,
+  gplus: #e23c05,
+  ig:    #356898,
+  pt:    #bd081c,
+  tb:    #36465D,
+  em:    #669C41,
+  rss:   $kuler2,
+  comm:  #A1A1A1
+);
+
+//--------------------------------------------------------------------------------
+//RESPONSIVE RATIO BOX
+//--------------------------------------------------------------------------------
+$prefix: ratiobox;
+
+$box_list: (
+  16  9       56.25%,
+  10  5       50%,
+  10  8       20%,
+  4   3       75%,
+  4   3p      85%,
+  3   4       133%,
+  9   16      178%
+);
+
+//--------------------------------------------------------------------------------
+//WEBKIT TOOLS
+//--------------------------------------------------------------------------------
+@mixin rounded-corner($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+       -o-border-radius: $radius;
+          border-radius: $radius;
+}
+@mixin blur-radius($radius) {
+  -webkit-filter: blur($radius + px);
+     -moz-filter: blur($radius + px);
+       -o-filter: blur($radius + px);
+      -ms-filter: blur($radius + px);
+          filter: blur($radius + px);
+}
+@mixin box-shadow($args...) {
+  -webkit-box-shadow: $args;
+     -moz-box-shadow: $args;
+       -o-box-shadow: $args;
+      -ms-box-shadow: $args;
+          box-shadow: $args;
+}
+@mixin text-shadow($args...) {
+  -webkit-text-shadow: $args;
+     -moz-text-shadow: $args;
+       -o-text-shadow: $args;
+      -ms-text-shadow: $args;
+          text-shadow: $args;
+}
+@mixin transition($args...) {
+  -webkit-transition: $args;
+     -moz-transition: $args;
+      -ms-transition: $args;
+       -o-transition: $args;
+          transition: $args;
+}
+@mixin transform($args...) {
+  -webkit-transform: $args;
+     -moz-transform: $args;
+      -ms-transform: $args;
+       -o-transform: $args;
+          transform: $args;
+}
+@mixin transform-origin($args...) {
+  -webkit-transform-origin: $args;
+     -moz-transform-origin: $args;
+      -ms-transform-origin: $args;
+       -o-transform-origin: $args;
+          transform-origin: $args;
+}
+@mixin animation($args...) {
+  -webkit-animation: $args;
+     -moz-animation: $args;
+      -ms-animation: $args;
+       -o-animation: $args;
+          animation: $args;
+}
+
+//--------------------------------------------------------------------------------
+//BACKGROUND, OPACITY, AND GRADIENTS
+//--------------------------------------------------------------------------------
+@mixin linear-gradient($start_color:#ffffff, $opacity_start: 0, $pos_start: 0%, $end_color:#000000, $opacity_end: 1, $pos_end: 100%, $direction_start: top, $direction_end: bottom) {
+  background: $start_color; /* Old browsers */
+  background: -moz-linear-gradient($direction_start,  rgba($start_color, $opacity_start) $pos_start, rgba($end_color, $opacity_end) $pos_end); /* FF3.6+ */
+  background: -webkit-linear-gradient($direction_start,  rgba($start_color, $opacity_start) $pos_start, rgba($end_color, $opacity_end) $pos_end); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to $direction_end,  rgba($start_color, $opacity_start) $pos_start, rgba($end_color, $opacity_end) $pos_end); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$start_color', endColorstr='$end_color',GradientType=1 ); /* IE6-9 */
+}
+@mixin radial-gradient($pos_x: center, $pos_y: center, $top_color:#ffffff, $opacity_top: 0, $pos_top: 0%, $bottom_color:#000000, $opacity: 1, $pos_bot: 100%) {
+  background: $top_color; /* Old browsers */
+  background: -moz-radial-gradient($pos_x $pos_y, ellipse cover, rgba($top_color, $opacity_top) $pos_top, rgba($bottom_color, $opacity) $pos_bot); /* FF3.6+ */
+  background: -webkit-radial-gradient($pos_x $pos_y, ellipse cover rgba($top_color, $opacity_top) $pos_top, rgba($bottom_color, $opacity) $pos_bot); /* Chrome10-25,Safari5.1-6 */
+  background: radial-gradient(ellipse at $pos_x $pos_y,  rgba($top_color, $opacity_top) $pos_top, rgba($bottom_color, $opacity) $pos_bot); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$top_color', endColorstr='$bottom_color',GradientType=1 ); /* IE6-9 */
+}
+@mixin background-opacity($color, $opacity: 0.3) {
+  background: $color; /* The Fallback */
+  background: rgba($color, $opacity);
+}
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+//--------------------------------------------------------------------------------
+//JUSTIFY CONTENT
+//--------------------------------------------------------------------------------
+@mixin alignment-content($align) {
+  -moz-box-align: center;
+  -moz-box-direction: normal;
+  -moz-box-orient: horizontal;
+  -moz-box-pack: justify;
+  align-items: $align;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-flex: 1;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+/*--------------------------------------------------------------------------------*/
+/*EXTENDS*/
+/*--------------------------------------------------------------------------------*/
+%_circle {
+  @include rounded-corner(50%);
+}
+%_mid_hor {
+    position: relative;
+    left: 50%;
+    @include transform(translateX(-50%));
+}
+%_mid_ver {
+    position: relative;
+    top: 50%;
+    @include transform(translateY(-50%));
+}
+%_mid_center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  @include transform(translate3d(-50%, -50%, 0));
+}
+%_font_museo {
+  font-family: $museo;
+}
+%_mp_nul {
+  margin: 0;
+  padding: 0;
+}
+%_list_none {
+  list-style: none;
+}
+%_alpha {
+  @include opacity(0.75);
+}
+%_alpha1 {
+  @include opacity(1);
+}
+%_overlay {
+  @include linear-gradient(#000, 0, 0%, #000, 0.70, 60%);
+}
+%_kuler1_color {
+  color: $kuler1;
+}
+%_kuler2_color {
+  color: $kuler2;
+}
+%_all_transition {
+  @include transition(all 200ms linear 0s);
+}
+
+

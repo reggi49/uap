@@ -68,8 +68,8 @@
                 </ul>
             </div>
             <div id="morphsearch" class="morphsearch">
-                <form class="morphsearch-form" action="search.php">
-                <input class="morphsearch-input" type="search" placeholder="Kata Kunci..." />
+                <form class="morphsearch-form" action="" method="GET">
+                <input class="morphsearch-input" type="text" name="search" placeholder="Kata Kunci..." value="{{request.GET.search}}"/>
                 <button class="morphsearch-submit" type="submit">Search</button>
                 </form>
                 <span class="morphsearch-close"></span>
@@ -115,5 +115,18 @@
 <script src="{% static "js/slick.min.js" %}"></script>
 <script src="{% static "js/classie.js" %}"></script>
 <script src="{% static "js/controller.js" %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $(".content-markdown").each(function(){
+    var content = $(this).text()
+    var markedContent = marked(content)
+    $(this).html(markedContent)
+  })
+  $(".post-detail-item img").each(function(){
+    $this.addClass("img-responsive");
+  })
+})
+</script>
   </body>
 </html>

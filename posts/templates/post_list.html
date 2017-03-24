@@ -14,7 +14,6 @@
 
                         <div class="list vertical middle">
                           {% for obj in object_list %}
-                          {% url "posts:post_detail" id=obj.id %}
                             <article>
                                 <a href="{{ obj.get_absolute_url }}">
                                     <span class="ratiobox ratio_4_3 box_img">
@@ -30,7 +29,7 @@
                                     <a href="#">
                                         <h2 class="title">{{ obj.title}}</h2>
                                     </a>
-                                    <p>{{ obj.content|truncatechars:20 }}</p>
+                                    <p class="post-detail-item">{{ obj.get_markdown|truncatechars_html:50 }}</p>
                                 </span>
                             </article>
                             {% endfor %}
