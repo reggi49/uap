@@ -8,6 +8,7 @@ from django.db.models.signals import pre_save
 from django.utils.text import slugify
 from markdown_deux import markdown
 from django.utils.safestring import mark_safe
+from django.contrib.contenttypes.models import ContentType
 
 from comments.models import Comment
 class PostManager(models.Manager):
@@ -46,6 +47,11 @@ class Post(models.Model):
         instance = self
         qs = Comment.objects.filter_by_instance(instance)
         return qs
+    @property
+    def get_content_type(selft):
+        instance =self
+        content_type = Comment.objects.filter_by_instance(instance.__class__)
+        return content_type
 
 def create_slug (instance, new_slug=None):
     slug = slugify(instance.title)
