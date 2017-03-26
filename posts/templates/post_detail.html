@@ -43,7 +43,20 @@
                             {{ comment.user }} says {{comment.content}}
                           </br>
                           <small>{{ comment.timestamp|timesince }} ago </small>
+                          <div class="comment-reply" style="display:none;">
+                          {% for child_comment in comment.children %}
+                          <blockquote>
+                            <p> {{child_comment.content }}</p>
+                            <footer> via {{ child_comment.user }} | {{ child_comment.timestamp|timesince }} ago | {% if comment.children.count > 0 %}{{ comment.children.count }} comments {% endif %}<a class="comment-reply-btn" href="#">reply</a> </footer>
+                          </blockquote>
+                          {% endfor %}
+                          <form method="POST" action="." >{% csrf_token %}
+                            {{ comment.form|crispy }}
+                            <input type="hidden" name ="parent_id" value="{{ comment.id }}">
+                            <input type="submit" value='Reply' class='btn btn-default'>
+                          </form>
                         {% endfor %}
+                      </div>
                         </hr>
                     </div>
 <div class="r_content">
