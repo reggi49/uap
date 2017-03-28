@@ -47,7 +47,7 @@ def post_detail(request,slug):
         "content_type" : instance.get_content_type,
         "object_id": instance.id
     }
-    form = ContentForm(request.Post or None, initial = initial_data)
+    form = CommentForm(request.POST or None, initial = initial_data)
     if form.is_valid():
         c_type = form.cleaned_data.get("content_type")
         content_type  = ContentType.objects.get(model=c_type)
