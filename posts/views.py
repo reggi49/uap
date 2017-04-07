@@ -12,8 +12,8 @@ from django.contrib.contenttypes.models import ContentType
 # Create your views here.
 from comments.models import Comment
 from comments.forms import CommentForm
-from .models import Post
-from .forms import PostForm
+from .models import Post, SlideShow, Contact
+from .forms import PostForm,ContactForm
 from .utils import get_read_time
 
 def post_create(request):
@@ -61,7 +61,7 @@ def post_detail(request,slug):
 
         if parent_id:
             parent_qs = Comment.objects.filter(id=parent_id)
-            if parent_qs.exist() and parent_qs.count() == 1:
+            if parent_qs.exists() and parent_qs.count() == 1:
                 parent_obj = parent_qs.first()
 
         new_comment, created = Comment.objects.get_or_create(
@@ -72,6 +72,9 @@ def post_detail(request,slug):
             parent = parent_obj,
         )
         return HttpResponseRedirect(new_comment.content_object.get_absolute_url())
+
+    instance.be_read = +1
+    instance.save(update_fields=['be_read'])
     comments = instance.comments
     context = {
         "title": instance.title,
@@ -86,6 +89,7 @@ def post_detail(request,slug):
 def post_list(request):
     today = timezone.now().date()
     queryset_list = Post.objects.activate()
+    slideshow_list = SlideShow.objects.all()
     if request.user.is_staff or request.user.is_superuser:
         queryset_list = Post.objects.all()
     query = request.GET.get("search")
@@ -107,6 +111,7 @@ def post_list(request):
         "object_list" : queryset,
         "page_request_var": page_request_var,
         "today":today,
+        "slideshow":slideshow_list,
     }
     return render(request,"post_list.html",context)
     # return HttpResponse("<h1>list</h1>")
@@ -137,3 +142,22 @@ def post_delete(request,id=None):
     instance.delete()
     messages.success(request,"Berhasil Menghapus Artikel")
     return redirect("posts:post_list")
+
+def post_contact(request):
+    form = ContactForm(request.POST or None,request.FILES or None)
+    if form.is_valid():
+        name = form.cleaned_data.get("name")
+        email = form.cleaned_data.get("email")
+        content_data = form.cleaned_data.get("content")
+
+        new_contact, created = Contact.objects.get_or_create(
+            name = name,
+            email = email,
+            content = content_data,
+        )
+        messages.success(request,"Succesfull send a messages")
+        return HttpResponseRedirect('/contact/')
+    context = {
+        "contact_form":form,
+    }
+    return render(request,"post_contact.html",context)

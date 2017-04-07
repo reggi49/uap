@@ -2,7 +2,7 @@ from django import forms
 
 from pagedown.widgets import PagedownWidget
 
-from .models import Post
+from .models import Post,SlideShow
 
 class PostForm(forms.ModelForm):
     content = forms.CharField(widget=PagedownWidget)
@@ -16,3 +16,8 @@ class PostForm(forms.ModelForm):
             "draft",
             "publish",
         ]
+
+class ContactForm(forms.Form):
+    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    content = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))

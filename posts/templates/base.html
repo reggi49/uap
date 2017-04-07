@@ -55,25 +55,27 @@
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="index.php" class="selected">Home</a></li>
-                    <li class="dropdown"><a href="static_page.php" class="dropdown-toggle">Tentang Kami &nbsp;<span class="caret"></span></a>
+                    <li><a href="{% url "posts:post_list" %}" class="selected">Home</a></li>
+                    <li class="dropdown"><a href="static_page.php" class="dropdown-toggle">Categories &nbsp;<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li class="visible-xs"><a href="static_page.php">Profil</a></li>
                             <li><a href="static_page.php">Apa yang kami kerjakan</a></li>
                         </ul>
                     </li>
-                    <li><a href="indeks.php">Survei</a></li>
-                    <li><a href="indeks.php">Berita</a></li>
-                    <li><a href="static_page2.php">Kontak</a></li>
+                    <li><a href="indeks.php">Tips & Trick</a></li>
+                    <li><a href="beruntun.net">Tutorial</a></li>
+                    <li><a href="beruntun.net">Consultation</a></li>
                 </ul>
             </div>
+
             <div id="morphsearch" class="morphsearch">
                 <form class="morphsearch-form" action="" method="GET">
+                <a href="{% url "posts:post_contact" %}">Contact</a>
                 <input class="morphsearch-input" type="text" name="search" placeholder="Kata Kunci..." value="{{request.GET.search}}"/>
                 <button class="morphsearch-submit" type="submit">Search</button>
                 </form>
                 <span class="morphsearch-close"></span>
-            </div>
+                <div id="morphsearch" class="morphsearch">
             <div class="overlay"></div>
         </div>
     </nav>
@@ -118,14 +120,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-  $(".content-markdown").each(function(){
+  $(".content-markdown  ").each(function(){
     var content = $(this).text()
     var markedContent = marked(content)
     $(this).html(markedContent)
   })
-  $(".post-detail-item img").each(function(){
-    $this.addClass("img-responsive");
+  $(".post-detail-item p > img").each(function(){
+    $(this).addClass("img-responsive").attr('alt', '{{instance.title}}');
   })
+
 })
 </script>
 <script type="text/javascript">
@@ -133,5 +136,6 @@ $(".comment-reply-btn").click(function(event){
   event.preventDefault();
   $(this).parent().next(".comment-reply").fadeToggle();
 })
+</script>
   </body>
 </html>

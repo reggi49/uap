@@ -18,11 +18,16 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 
+from accounts.views import (login_view, register_view, logout_view)
+
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^post/', include('posts.urls', namespace = 'posts')),
+    url(r'^jalanbelakang/', admin.site.urls),
+    url(r'^', include('posts.urls', namespace = 'posts')),
+    #url(r'^post/', include('posts.urls', namespace = 'posts')),
     url(r'^comments/', include('comments.urls', namespace = 'comments')),
     url(r'^news/', include('news.urls')),
+    url(r'^login/', login_view,name='login'),
+    url(r'^logout/', logout_view,name='logout'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)

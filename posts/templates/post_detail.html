@@ -1,70 +1,77 @@
-    {% extends "base.html" %}
+{% extends "base.html" %}
 
-    {% block head_title %}
-    {{ instance.title }} | {{ block.super }}
-    {% endblock head_title %}
+{% block head_title %}
+{{ instance.title }} | {{ block.super }}
+{% endblock head_title %}
 
-    <style>
-    {% block style %}
+<style>
+{% block style %}
 
-    {% endblock style %}
-    </style>
+{% endblock style %}
+</style>
 
-    {% block content %}
-    <section id="content">
-                <div class="container">
+{% block content %}
+<section id="content">
+            <div class="container">
 
-                    <div class="l_content">
+                <div class="l_content">
 
-                        <article class="box detail_text content-markdown post-detail-item">
+                    <article class="box detail_text">
 
-                            <h1 class="title">
-                                {{ instance.title }}
-                            </h1>
-                            <span class="date mt5">{{ instance.updated }} |
-                              <a href="https://www.facebook.com/sharer/sharer.php?{{request.build_absolute_uri}}"> Share on Facebook </a>
-                              <a href="https://twitter.com/home?status={{share_string}}%20{{request.build_absolute_uri}}">Share on Twitter</a>
-                              <a href='https://plus.google.com/share?url={{request.build_absolute_uri}}'></a>
+                        <h1 class="title">
+                            {{ instance.title }}
+                        </h1>
+                        <span class="date mt5">{{ instance.updated }} |
+                          <a href="https://www.facebook.com/sharer/sharer.php?{{request.build_absolute_uri}}"> Share on Facebook </a>
+                          <a href="https://twitter.com/home?status={{share_string}}%20{{request.build_absolute_uri}}">Share on Twitter</a>
+                          <a href='https://plus.google.com/share?url={{request.build_absolute_uri}}'></a>
 
 
-                            <hr>
-
-                            {{ instance.get_markdown }}
-
-                        </article>
-                        <p class="lead">Comments</p>
-                        <form method="POST" action="." >{% csrf_token %}
-                          {{ comment.form }}
-                          <input type="submit" value='Post comment' class='btn btn-default'>
-                        </form>
-                        <hr/>
-                        {% for comment in comments %}
-                          <div class="">
-                            {{ comment.user }} says {{comment.content}}
-                          </br>
-                          <small>{{ comment.timestamp|timesince }} ago </small>
+                        <hr>
+                        <div class="content-markdown post-detail-item">
+                        {{ instance.content }}
+                      </div>
+                    </article>
+                    <p class="lead">Comments</p>
+                    <form method="POST" action="." class="form mb30">
+                      <div class="form-group">
+                        {% csrf_token %}
+                        {{ comment_form }}
+                      </div>
+                      <input type="submit" value='Post comment' class='btn btn-default'>
+                    </form>
+                    <hr/>
+                    {% for comment in comments %}
+                    <blockquote>
+                        {{ comment.user }} says: {{comment.content}}
+                      </br>
+                      <small>{{ comment.timestamp|timesince }} ago | {% if comment.children.count > 0 %}{{ comment.children.count }} comments | {% endif %}  <a class="comment-reply-btn" href="#">Reply</a> </small>
                           <div class="comment-reply" style="display:none;">
                           {% for child_comment in comment.children %}
-                          <blockquote>
-                            <p> {{child_comment.content }}</p>
-                            <footer> via {{ child_comment.user }} | {{ child_comment.timestamp|timesince }} ago | {% if comment.children.count > 0 %}{{ comment.children.count }} comments {% endif %}<a class="comment-reply-btn" href="#">reply</a> </footer>
-                          </blockquote>
+                              <blockquote>
+                                <p> {{child_comment.content }}</p>
+                                <footer> via {{ child_comment.user }} | {{ child_comment.timestamp|timesince }} ago </footer>
+                              </blockquote>
                           {% endfor %}
-                          <form method="POST" action="." >{% csrf_token %}
-                            {{ comment.form }}
-                            <input type="hidden" name ="parent_id" value="{{ comment.id }}">
-                            <input type="submit" value='Reply' class='btn btn-default'>
+                          <form method="POST" action="." >
+                            <div class="form-group">
+                              {% csrf_token %}
+                              {{ comment_form }}
+                              <input type="hidden" name ="parent_id" value="{{ comment.id }}">
+                              <input type="submit" value='Reply' class='btn btn-default'>
+                            </div>
                           </form>
-                        {% endfor %}
-                      </div>
-                        </hr>
-                    </div>
+                        </div>
+                      </blockquote>
+                      </hr>
+                    {% endfor %}
+            </div>
 <div class="r_content">
-  {% include "box/box_satu.html" %}
-  {% include "box/box_dua.html" %}
-  {% include "box/box_tiga.html" %}
-        </div>
-          <div class="clearfix"></div>
+{% include "box/box_satu.html" %}
+{% include "box/box_dua.html" %}
+{% include "box/box_tiga.html" %}
     </div>
+      <div class="clearfix"></div>
+</div>
 </section>
 {% endblock content %}

@@ -19,14 +19,14 @@ class CommentManager(models.Manager):
         return qs
 
 class Comment(models.Model):
-    user        = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
+    user            = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
     #post        = models.ForeignKey(Post)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE,null=True)
-    object_id = models.PositiveIntegerField(null=True)
-    content_object = GenericForeignKey('content_type','object_id')
-    parent = models.ForeignKey("self",null = True, blank = True)
-    content     = models.TextField()
-    timestamp   = models.DateTimeField(auto_now_add=True)
+    content_type    = models.ForeignKey(ContentType, on_delete=models.CASCADE,null=True)
+    object_id       = models.PositiveIntegerField(null=True)
+    content_object  = GenericForeignKey('content_type','object_id')
+    parent          = models.ForeignKey("self",null=True, blank=True)
+    content         = models.TextField()
+    timestamp       = models.DateTimeField(auto_now_add=True)
 
     objects  = CommentManager()
 
