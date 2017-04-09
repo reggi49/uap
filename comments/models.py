@@ -33,7 +33,7 @@ class Comment(models.Model):
     class Meta:
         ordering = ['-timestamp']
     def __str__(self):
-        return str(self.user.username)
+        return str(self.content)
 
     def children(self):
         return Comment.objects.filter(parent=self)

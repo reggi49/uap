@@ -12,6 +12,7 @@ class PostForm(forms.ModelForm):
         fields = [
             "title",
             "content",
+            "id_kategori",
             "image",
             "draft",
             "publish",

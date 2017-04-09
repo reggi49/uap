@@ -12,7 +12,7 @@ from django.contrib.contenttypes.models import ContentType
 # Create your views here.
 from comments.models import Comment
 from comments.forms import CommentForm
-from .models import Post, SlideShow, Contact
+from .models import Post, SlideShow, Contact, Category
 from .forms import PostForm,ContactForm
 from .utils import get_read_time
 
@@ -73,7 +73,7 @@ def post_detail(request,slug):
         )
         return HttpResponseRedirect(new_comment.content_object.get_absolute_url())
 
-    instance.be_read = +1
+    instance.be_read = instance.be_read+1
     instance.save(update_fields=['be_read'])
     comments = instance.comments
     context = {
@@ -88,13 +88,16 @@ def post_detail(request,slug):
 
 def post_list(request):
     today = timezone.now().date()
-    queryset_list = Post.objects.activate()
+    queryset_list = Post.objects.activate()[:7]
     slideshow_list = SlideShow.objects.all()
+    most_read  = Post.objects.order_by('-be_read')[:6]
+    categories = Category.objects.filter(id_level= 0)
     if request.user.is_staff or request.user.is_superuser:
-        queryset_list = Post.objects.all()
+        queryset_list = Post.objects.activate()
     query = request.GET.get("search")
+    queryset_search = Post.objects.all()
     if query:
-        queryset_list = queryset_list.filter(
+        queryset_list = queryset_search.filter(
         Q(title__icontains =query)|
         Q(content__icontains =query)).distinct()
     paginator = Paginator (queryset_list,10)
@@ -109,11 +112,44 @@ def post_list(request):
 
     context = {
         "object_list" : queryset,
-        "page_request_var": page_request_var,
-        "today":today,
-        "slideshow":slideshow_list,
+        "page_request_var" : page_request_var,
+        "today" : today,
+        "slideshow" :slideshow_list,
+        "most_read" : most_read,
+        "categories" : categories,
     }
     return render(request,"post_list.html",context)
+    # return HttpResponse("<h1>list</h1>")
+
+def post_indeks(request):
+    today = timezone.now().date()
+    queryset_list = Post.objects.activate()[7:]
+    categories = Category.objects.filter(id_level= 0)
+    if request.user.is_staff or request.user.is_superuser:
+        queryset_list = Post.objects.activate()[7:]
+    query = request.GET.get("search")
+    queryset_search = Post.objects.all()
+    if query:
+        queryset_list = queryset_search.filter(
+        Q(title__icontains =query)|
+        Q(content__icontains =query)).distinct()
+    paginator = Paginator (queryset_list,8)
+    page_request_var = "page"
+    page = request.GET.get(page_request_var)
+    try:
+        queryset =  paginator.page(page)
+    except PageNotAnInteger:
+        queryset  = paginator.page(1)
+    except EmptyPage:
+        queryset  = paginator.page(Paginator.num_pages)
+
+    context = {
+        "object_list" : queryset,
+        "page_request_var" : page_request_var,
+        "today" : today,
+        "categories" : categories,
+    }
+    return render(request,"post_indeks.html",context)
     # return HttpResponse("<h1>list</h1>")
 
 def post_update(request,id=None):

@@ -6,85 +6,24 @@
                     <div class="title_box"><i class="icon icon-chart"></i> Trending Articles</div>
 
                     <div class="row col">
+                      {% for obj in most_read %}
 
                         <article class="col-xsl-6 col-sm-4">
-                            <a href="detail.php">
+                            <a href="{{ obj.get_absolute_url }}">
                                 <span class="ratiobox ratio_4_3 mb10">
                                     <span class="ratiobox_content lqd">
-                                        <img src="images/img_graph1.jpg" alt="">
+                                      {% if obj.image %}
+                                        <img src="{{ obj.image.url }}" alt="{{ obj.title }}">
+                                      {% endif %}
                                     </span>
                                 </span>
-                                <span class="date">30 October 2016</span>
-                                <h3 class="title">Kata Publik Jakarta Tentang Isu Terbaru Di Ibukota</h3>
+                                <span class="date">{{ obj.updated|timesince }} ago</span>
+                                <h3 class="title">{{ obj.title }}</h3>
                             </a>
-                            <p>Pasca Pemanggilan Ahok oleh KPK, Nama Susi Pudjiastuti di Bursa Cagub Jakarta dan Kemacetan Pasca Tidak Diberlakukannya 3 in 1 Jakarta, 24 April 2016. Lembaga Survei KedaiKopi (Kelompok Diskusi dan Kajian…</p>
+                            <p>{{ obj.get_markdown|truncatechars_html:50 }}</p>
                         </article>
 
-                        <article class="col-xsl-6 col-sm-4">
-                            <a href="detail.php">
-                                <span class="ratiobox ratio_4_3 mb10">
-                                    <span class="ratiobox_content lqd">
-                                        <img src="images/img_graph2.jpg" alt="">
-                                    </span>
-                                </span>
-                                <span class="date">30 October 2016</span>
-                                <h3 class="title">Kedai Kopi Selain Risma Ini Kepala Daerah PDIP Yang Bisa Jadi Kuda Hitam Di Pilgub Jakarta</h3>
-                            </a>
-                            <p>Jakarta, 19 September 2016. Lembaga Survei KedaiKOPI ( Kelompok Diskusi dan Kajian Opini Publik Indonesia) meluncurkan hasil survei tentang kepala daerah asal PDIP yang dapat menjadi kuda hitam di Pilgub…</p>
-                        </article>
-
-                        <article class="col-xsl-6 col-sm-4">
-                            <a href="detail.php">
-                                <span class="ratiobox ratio_4_3 mb10">
-                                    <span class="ratiobox_content lqd">
-                                        <img src="images/img_graph3.jpg" alt="">
-                                    </span>
-                                </span>
-                                <span class="date">30 October 2016</span>
-                                <h3 class="title">Mungkin Alasan Ini Yang Bikin Ahok Masih Berharap Pada PDIP</h3>
-                            </a>
-                            <p>Tingkat Elektabilitas Gubernur dan Partai Untuk permulaan, secara umum beberapa Lembaga Survei telah mengukur tingkat elektabilitas gubernur Basuki Tjahaja Purnama atau yang akrab disapa Ahok ini dengan hasil yang meningkat…</p>
-                        </article>
-
-                        <article class="col-xsl-6 col-sm-4">
-                            <a href="detail.php">
-                                <span class="ratiobox ratio_4_3 mb10">
-                                    <span class="ratiobox_content lqd">
-                                        <img src="images/img_graph4.jpg" alt="">
-                                    </span>
-                                </span>
-                                <span class="date">30 October 2016</span>
-                                <h3 class="title">Kata Publik Jakarta Tentang Isu Terbaru Di Ibukota</h3>
-                            </a>
-                            <p>Pasca Pemanggilan Ahok oleh KPK, Nama Susi Pudjiastuti di Bursa Cagub Jakarta dan Kemacetan Pasca Tidak Diberlakukannya 3 in 1 Jakarta, 24 April 2016. Lembaga Survei KedaiKopi (Kelompok Diskusi dan Kajian…</p>
-                        </article>
-
-                        <article class="col-xsl-6 col-sm-4">
-                            <a href="detail.php">
-                                <span class="ratiobox ratio_4_3 mb10">
-                                    <span class="ratiobox_content lqd">
-                                        <img src="images/img_graph5.jpg" alt="">
-                                    </span>
-                                </span>
-                                <span class="date">30 October 2016</span>
-                                <h3 class="title">Kedai Kopi Selain Risma Ini Kepala Daerah PDIP Yang Bisa Jadi Kuda Hitam Di Pilgub Jakarta</h3>
-                            </a>
-                            <p>Jakarta, 19 September 2016. Lembaga Survei KedaiKOPI ( Kelompok Diskusi dan Kajian Opini Publik Indonesia) meluncurkan hasil survei tentang kepala daerah asal PDIP yang dapat menjadi kuda hitam di Pilgub…</p>
-                        </article>
-
-                        <article class="col-xsl-6 col-sm-4">
-                            <a href="detail.php">
-                                <span class="ratiobox ratio_4_3 mb10">
-                                    <span class="ratiobox_content lqd">
-                                        <img src="images/img_graph6.jpg" alt="">
-                                    </span>
-                                </span>
-                                <span class="date">30 October 2016</span>
-                                <h3 class="title">Mungkin Alasan Ini Yang Bikin Ahok Masih Berharap Pada PDIP</h3>
-                            </a>
-                            <p>Tingkat Elektabilitas Gubernur dan Partai Untuk permulaan, secara umum beberapa Lembaga Survei telah mengukur tingkat elektabilitas gubernur Basuki Tjahaja Purnama atau yang akrab disapa Ahok ini dengan hasil yang meningkat…</p>
-                        </article>
-
+                        {% endfor %}
                     </div>
 
                 </div>

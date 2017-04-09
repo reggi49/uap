@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+<section id="content">
+    <div class="container">
+
+        <div class="l_content">
+
+            <div class="box">
+
+                <div class="title_box">INDEX ARTICLES</div>
+
+                <div class="list vertical middle">
+                  {% for obj in object_list %}
+                    <article>
+                        <a href="{{ obj.get_absolute_url }}">
+                            <span class="ratiobox ratio_4_3 box_img">
+                                <span class="ratiobox_content lqd">
+                                  {% if obj.image %}
+                                    <img src="{{ obj.image.url }}" alt="{{ obj.title }}">
+                                  {% endif %}
+                                </span>
+                            </span>
+                        </a>
+                        <span class="box_text">
+                            <span class="date">{{ obj.updated|timesince }} ago</span>
+                            <a href="{{ obj.get_absolute_url }}">
+                                <h2 class="title">{{ obj.title }}</h2>
+                            </a>
+                            <p class="post-detail-item">{{ obj.get_markdown|truncatechars_html:50 }}</p>
+                        </span>
+                    </article>
+                    {% endfor %}
+                </div>
+
+                <hr>
+
+                <strong>Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}</strong>
+
+                <nav aria-label="Page navigation" class="center">
+                    <ul class="pagination">
+                        <li>
+                            <a href="?{{page_request_var}}=1" aria-label="Start" title="Start">
+                                <span aria-hidden="true"><strong>&laquo;</strong></span>
+                            </a>
+                        </li>
+                        <li>
+                          {% if object_list.has_previous %}
+                            <a href="?{{page_request_var}}={{ object_list.previous_page_number }}" aria-label="Previous" title="Previous">
+                                <span aria-hidden="true"><strong>&lsaquo;</strong></span>
+                            </a>
+                            {% endif %}
+                        </li>
+                        {% for page in object_list.paginator.page_range %}
+                          {% if forloop.counter ==  object_list.number %}
+                          <li class="active"><a href="?{{page_request_var}}={{ page }}">{{ page }}</a></li>
+                          {% else %}
+                          <li class=""><a href="?{{page_request_var}}={{ page }}">{{ page }}</a></li>
+                          {% endif %}
+                        {% endfor %}
+                        <li>
+                          {% if object_list.has_next %}
+                            <a href="?{{page_request_var}}={{ object_list.next_page_number }}" aria-label="Next" title="Next">
+                                <span aria-hidden="true"><strong>&rsaquo;</strong></span>
+                            </a>
+                          {% endif %}
+                        </li>
+                        <li>
+                            <a href="?{{page_request_var}}={{ object_list.paginator.num_pages }}" aria-label="End" title="End">
+                                <span aria-hidden="true"><strong>&raquo;</strong></span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+            </div>
+
+        </div>
+    <div class="r_content">
+      {% include "box/box_satu.html" %}
+      {% include "box/box_dua.html" %}
+      {% include "box/box_tiga.html" %}
+      <div class="clearfix"></div>
+    </div>
+</section>
+{% endblock content %}

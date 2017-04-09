@@ -19,22 +19,26 @@
                                     <span class="ratiobox ratio_4_3 box_img">
                                         <span class="ratiobox_content lqd">
                                           {% if obj.image %}
-                                            <img src="{{ obj.image.url }}" alt="">
-                                            {% endif %}
+                                            <img src="{{ obj.image.url }}" alt="{{ obj.title }}">
+                                          {% endif %}
                                         </span>
                                     </span>
                                 </a>
                                 <span class="box_text">
                                     <span class="date">{{ obj.updated|timesince }} ago</span>
-                                    <a href="#">
-                                        <h2 class="title">{{ obj.title}}</h2>
+                                    <a href="{{ obj.get_absolute_url }}">
+                                        <h2 class="title">{{ obj.title }}</h2>
                                     </a>
                                     <p class="post-detail-item">{{ obj.get_markdown|truncatechars_html:50 }}</p>
                                 </span>
                             </article>
                             {% endfor %}
                         </div>
-
+                        <div class="text-center">
+                          <form action="{% url "posts:post_indeks" %}">
+                            <input type="submit" value='LOAD MORE' class='btn btn-default'>
+                          </form>
+                        </div>
                     </div>
                 </div>
       <div class="r_content">
