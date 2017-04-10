@@ -93,13 +93,7 @@ def post_list(request):
     most_read  = Post.objects.order_by('-be_read')[:6]
     categories = Category.objects.filter(id_level= 0)
     if request.user.is_staff or request.user.is_superuser:
-        queryset_list = Post.objects.activate()
-    query = request.GET.get("search")
-    queryset_search = Post.objects.all()
-    if query:
-        queryset_list = queryset_search.filter(
-        Q(title__icontains =query)|
-        Q(content__icontains =query)).distinct()
+        queryset_list = Post.objects.activate()[:7]
     paginator = Paginator (queryset_list,10)
     page_request_var = "page"
     page = request.GET.get(page_request_var)
@@ -119,37 +113,6 @@ def post_list(request):
         "categories" : categories,
     }
     return render(request,"post_list.html",context)
-    # return HttpResponse("<h1>list</h1>")
-
-def post_indeks(request):
-    today = timezone.now().date()
-    queryset_list = Post.objects.activate()[7:]
-    categories = Category.objects.filter(id_level= 0)
-    if request.user.is_staff or request.user.is_superuser:
-        queryset_list = Post.objects.activate()[7:]
-    query = request.GET.get("search")
-    queryset_search = Post.objects.all()
-    if query:
-        queryset_list = queryset_search.filter(
-        Q(title__icontains =query)|
-        Q(content__icontains =query)).distinct()
-    paginator = Paginator (queryset_list,8)
-    page_request_var = "page"
-    page = request.GET.get(page_request_var)
-    try:
-        queryset =  paginator.page(page)
-    except PageNotAnInteger:
-        queryset  = paginator.page(1)
-    except EmptyPage:
-        queryset  = paginator.page(Paginator.num_pages)
-
-    context = {
-        "object_list" : queryset,
-        "page_request_var" : page_request_var,
-        "today" : today,
-        "categories" : categories,
-    }
-    return render(request,"post_indeks.html",context)
     # return HttpResponse("<h1>list</h1>")
 
 def post_update(request,id=None):
@@ -181,6 +144,7 @@ def post_delete(request,id=None):
 
 def post_contact(request):
     form = ContactForm(request.POST or None,request.FILES or None)
+    categories = Category.objects.filter(id_level= 0)
     if form.is_valid():
         name = form.cleaned_data.get("name")
         email = form.cleaned_data.get("email")
@@ -195,5 +159,70 @@ def post_contact(request):
         return HttpResponseRedirect('/contact/')
     context = {
         "contact_form":form,
+        "categories" : categories,
     }
     return render(request,"post_contact.html",context)
+
+def post_indeks(request):
+    today = timezone.now().date()
+    queryset_list = Post.objects.activate()[7:]
+    categories = Category.objects.filter(id_level= 0)
+    if request.user.is_staff or request.user.is_superuser:
+        queryset_list = Post.objects.activate()[7:]
+    query = request.GET.get("search")
+    queryset_search = Post.objects.all()
+    if query:
+        queryset_list = queryset_search.filter(
+        Q(title__icontains =query)|
+        Q(content__icontains =query)).distinct()
+        if queryset_list.count() > 0 :
+            messages.success(request,"Articles found",extra_tags='some-tags')
+        else:
+            messages.success(request,"Not found article like ",extra_tags='some-tags')
+    paginator = Paginator (queryset_list,8)
+    page_request_var = "page"
+    page = request.GET.get(page_request_var)
+    try:
+        queryset =  paginator.page(page)
+    except PageNotAnInteger:
+        queryset  = paginator.page(1)
+    except EmptyPage:
+        queryset  = paginator.page(Paginator.num_pages)
+
+    context = {
+        "title" : 'Indeks',
+        "object_list" : queryset,
+        "page_request_var" : page_request_var,
+        "today" : today,
+        "categories" : categories,
+    }
+    return render(request,"post_indeks.html",context)
+
+def post_categories(request,id=None):
+    today = timezone.now().date()
+    # id_parent = Post.objects.select_related().filter(id_kategori__id_kategori__id_parent=id)
+    # print id_parent
+    queryset_list = Post.objects.filter(id_kategori__id_parent=id)
+    print queryset_list
+    categories = Category.objects.filter(id_level= 0)
+    if request.user.is_staff or request.user.is_superuser:
+        queryset_list = Post.objects.filter(id_kategori=id)
+    query = request.GET.get("search")
+    paginator = Paginator (queryset_list,8)
+    page_request_var = "page"
+    page = request.GET.get(page_request_var)
+    try:
+        queryset =  paginator.page(page)
+    except PageNotAnInteger:
+        queryset  = paginator.page(1)
+    except EmptyPage:
+        queryset  = paginator.page(Paginator.num_pages)
+
+    context = {
+        "title" : 'Categories',
+        "object_list" : queryset,
+        "page_request_var" : page_request_var,
+        "today" : today,
+        "categories" : categories,
+    }
+    return render(request,"post_indeks.html",context)

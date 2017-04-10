@@ -11,7 +11,7 @@
     <meta name="author" content="">
     <link rel="icon" href="{% static "/images/favicon-updatebanget.png" %}">
 
-    <title>{% block head_title %}Kekerenan | gaya meureun {% endblock head_title %}</title>
+    <title>{% block head_title %}Kekerenan.com - Style in Every Moving {% endblock head_title %}</title>
 
     <!-- Core CSS -->
     <link rel='stylesheet'href="{% static "/css/style.css" %}"/>
@@ -68,18 +68,18 @@
                           {% for obj in categories %}
                             <!-- <li class="visible-xs"><a href="static_page.php">Profil</a></li> -->
                             <!-- <li><a href="static_page.php">Apa yang kami kerjakan</a></li> -->
-                            <li><a href="static_page.php">{{ obj.name }}</a></li>
+                            <li><a href="{{ obj.get_absolute_url }}">{{ obj.name }}</a></li>
                           {% endfor %}
                         </ul>
                     </li>
-                    <li><a href="beruntun.net">Tutorial</a></li>
-                    <li><a href="beruntun.net">Consultation</a></li>
+                    <li><a href="categories/6">Tutorial</a></li>
+                    <li><a href="#">Consultation</a></li>
                     <li><a class="glyphicon glyphicon-comment" href="{% url "posts:post_contact" %}"></a></li>
                 </ul>
             </div>
 
             <div id="morphsearch" class="morphsearch">
-                <form class="morphsearch-form" action="" method="GET">
+                <form class="morphsearch-form" action="{% url "posts:post_indeks" %}" method="GET">
                 <input class="morphsearch-input" type="text" name="search" placeholder="Kata Kunci..." value="{{request.GET.search}}"/>
                 <button class="morphsearch-submit" type="submit">Search</button>
                 </form>
@@ -111,8 +111,8 @@
 			<a href="#" class="icon icon-gplus gplus"></a>
 		</div>
 
-		<span class="font_museo">Lembaga Survei Kedai Kopi</span> <br>
-    	Copyright © 2017, All Rights Reserved - <a href="static_page.php" class="font_museo">Privacy Policy</a>
+    <span class="font_museo">Kekerenan.com - Style in Every Moving</span> <br>
+    	Copyright &copy; {% now "Y" %}, All Rights Reserved - <a href="#" class="font_museo">Privacy Policy</a>
 	</div>
 
 </footer>      <!-- Core JavaScript

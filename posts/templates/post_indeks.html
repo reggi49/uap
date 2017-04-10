@@ -7,7 +7,9 @@
 
             <div class="box">
 
-                <div class="title_box">INDEX ARTICLES</div>
+                <div class="title_box">{{ title }} ARTICLES</div>
+
+                {% include "messages_display.html" %}
 
                 <div class="list vertical middle">
                   {% for obj in object_list %}
@@ -76,9 +78,9 @@
 
         </div>
     <div class="r_content">
-      {% include "box/box_satu.html" %}
-      {% include "box/box_dua.html" %}
-      {% include "box/box_tiga.html" %}
+      {% include "box/subscribe_box.html" %}
+      {% include "box/contact_box.html" %}
+      {% include "box/berita_terkait_box.html" %}
       <div class="clearfix"></div>
     </div>
 </section>

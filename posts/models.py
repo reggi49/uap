@@ -14,6 +14,8 @@ from comments.models import Comment
 class PostManager(models.Manager):
     def activate(self, *args, **kwargs):
         return super(PostManager, self).filter(draft=False).filter(publish__lte=timezone.now())
+    def categories(self, *args, **kwargs):
+        return super(PostManager, self).filter(draft=False)
 # Create your models here.
 def upload_location(instance, filename):
     #filebase, extension = filename.split(".")
@@ -44,15 +46,17 @@ class Contact(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=120)
     level_select = (
-        (0,'Parent Level'),
-        (1,'Child Level'),
+        (1,'Parent Level'),
+        (2,'Child Level'),
     )
-    id_level = models.IntegerField(choices=level_select,default=0)
+    id_level = models.IntegerField(choices=level_select,default=1)
     id_parent = models.ForeignKey("self",null=True, blank=True)
 
     def __unicode__(self):
         return self.name
-
+    def get_absolute_url(self):
+        return reverse("posts:post_categories", kwargs= {"id":self.id})
+        # return "/categories/%d/" %(self.id)
 
 class Post(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
