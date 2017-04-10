@@ -91,7 +91,7 @@ def post_list(request):
     queryset_list = Post.objects.activate()[:7]
     slideshow_list = SlideShow.objects.all()
     most_read  = Post.objects.order_by('-be_read')[:6]
-    categories = Category.objects.filter(id_level= 0)
+    categories = Category.objects.filter(id_level= 1)
     if request.user.is_staff or request.user.is_superuser:
         queryset_list = Post.objects.activate()[:7]
     paginator = Paginator (queryset_list,10)
@@ -144,7 +144,7 @@ def post_delete(request,id=None):
 
 def post_contact(request):
     form = ContactForm(request.POST or None,request.FILES or None)
-    categories = Category.objects.filter(id_level= 0)
+    categories = Category.objects.filter(id_level= 1)
     if form.is_valid():
         name = form.cleaned_data.get("name")
         email = form.cleaned_data.get("email")
@@ -166,7 +166,7 @@ def post_contact(request):
 def post_indeks(request):
     today = timezone.now().date()
     queryset_list = Post.objects.activate()[7:]
-    categories = Category.objects.filter(id_level= 0)
+    categories = Category.objects.filter(id_level= 1)
     if request.user.is_staff or request.user.is_superuser:
         queryset_list = Post.objects.activate()[7:]
     query = request.GET.get("search")
@@ -204,7 +204,7 @@ def post_categories(request,id=None):
     # print id_parent
     queryset_list = Post.objects.filter(id_kategori__id_parent=id)
     print queryset_list
-    categories = Category.objects.filter(id_level= 0)
+    categories = Category.objects.filter(id_level= 1)
     if request.user.is_staff or request.user.is_superuser:
         queryset_list = Post.objects.filter(id_kategori=id)
     query = request.GET.get("search")
