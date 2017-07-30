@@ -28,8 +28,15 @@
 
 
                         <hr>
-                        <div class="content-markdown post-detail-item">
-                        {{ instance.content }}
+                          <div class="post-detail-item">
+                            {% if instance.image %}
+                              {% if 'http' in instance.image.url %}
+                                <img src="{{ instance.image }}?w=600" alt="{{ obj.title }}" class="img-responsive mb20">
+                              {% else %}
+                                <img src="{{ instance.image.url }}" alt="{{ obj.title }}" class="img-responsive mb20">
+                              {% endif %}
+                            {% endif %}
+                          {{ instance.content|safe }}
                       </div>
                     </article>
                     <p class="lead">Comments</p>

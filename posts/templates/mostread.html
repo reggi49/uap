@@ -13,7 +13,11 @@
                                 <span class="ratiobox ratio_4_3 mb10">
                                     <span class="ratiobox_content lqd">
                                       {% if obj.image %}
-                                        <img src="{{ obj.image.url }}" alt="{{ obj.title }}">
+                                        {% if 'http' in obj.image.url %}
+                                          <img src="{{ obj.image }}?w=400" alt="{{ obj.title }}">
+                                        {% else %}
+                                          <img src="{{ obj.image.url }}" alt="{{ obj.title }}">
+                                        {% endif %}
                                       {% endif %}
                                     </span>
                                 </span>

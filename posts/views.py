@@ -1,4 +1,3 @@
-
 from django.contrib import messages
 from urllib import quote_plus
 from django.db.models import Q
@@ -8,6 +7,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.contenttypes.models import ContentType
+
 
 # Create your views here.
 from comments.models import Comment
@@ -42,6 +42,7 @@ def post_detail(request,slug):
     if instance.draft or instance.publish > timezone.now().date():
         if not request.user.is_staff or not request.user.is_super:
             raise Http404
+    categories = Category.objects.filter(id_level= 0)
     share_string = quote_plus(instance.content)
     initial_data = {
         "content_type" : instance.get_content_type,
@@ -65,7 +66,7 @@ def post_detail(request,slug):
                 parent_obj = parent_qs.first()
 
         new_comment, created = Comment.objects.get_or_create(
-            user = request.user,
+            user = request.user(1),
             content_type = content_type,
             object_id = obj_id,
             content = content_data,
@@ -82,6 +83,7 @@ def post_detail(request,slug):
         "share_string": share_string,
         "comments" : comments,
         "comment_form" : form,
+        "categories" : categories,
     }
     return render(request,"post_detail.html",context)
     # return HttpResponse("<h1>posts</h1>")
@@ -91,7 +93,7 @@ def post_list(request):
     queryset_list = Post.objects.activate()[:7]
     slideshow_list = SlideShow.objects.all()
     most_read  = Post.objects.order_by('-be_read')[:6]
-    categories = Category.objects.filter(id_level= 1)
+    categories = Category.objects.filter(id_level= 0)
     if request.user.is_staff or request.user.is_superuser:
         queryset_list = Post.objects.activate()[:7]
     paginator = Paginator (queryset_list,10)
@@ -144,7 +146,7 @@ def post_delete(request,id=None):
 
 def post_contact(request):
     form = ContactForm(request.POST or None,request.FILES or None)
-    categories = Category.objects.filter(id_level= 1)
+    categories = Category.objects.filter(id_level= 0)
     if form.is_valid():
         name = form.cleaned_data.get("name")
         email = form.cleaned_data.get("email")
@@ -166,7 +168,7 @@ def post_contact(request):
 def post_indeks(request):
     today = timezone.now().date()
     queryset_list = Post.objects.activate()[7:]
-    categories = Category.objects.filter(id_level= 1)
+    categories = Category.objects.filter(id_level= 0)
     if request.user.is_staff or request.user.is_superuser:
         queryset_list = Post.objects.activate()[7:]
     query = request.GET.get("search")
@@ -188,12 +190,16 @@ def post_indeks(request):
         queryset  = paginator.page(1)
     except EmptyPage:
         queryset  = paginator.page(Paginator.num_pages)
-
+    min = queryset.number - 5
+    max = queryset.number + 5
     context = {
         "title" : 'Indeks',
         "object_list" : queryset,
         "page_request_var" : page_request_var,
         "today" : today,
+        "query" : query,
+        "min" : min,
+        "max" : max,
         "categories" : categories,
     }
     return render(request,"post_indeks.html",context)
@@ -204,7 +210,7 @@ def post_categories(request,id=None):
     # print id_parent
     queryset_list = Post.objects.filter(id_kategori__id_parent=id)
     print queryset_list
-    categories = Category.objects.filter(id_level= 1)
+    categories = Category.objects.filter(id_level= 0)
     if request.user.is_staff or request.user.is_superuser:
         queryset_list = Post.objects.filter(id_kategori=id)
     query = request.GET.get("search")

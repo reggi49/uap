@@ -1,7 +1,6 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,6 +8,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="google-site-verification" content="Uu9fgiowiz1mOb-Rx-v1Wvtz34Z8Xyp3SpOKZQUZmjI" />
     <link rel="icon" href="{% static "/images/favicon-updatebanget.png" %}">
 
     <title>{% block head_title %}Kekerenan.com - Style in Every Moving {% endblock head_title %}</title>
@@ -37,6 +37,9 @@
           font-size: 12px;
         }
       }
+      .pagination>.active>a, .pagination>.active>a:hover, .pagination>.active>a:focus, .pagination>.active>span, .pagination>.active>span:hover, .pagination>.active>span:focus {
+        z-index: 2;
+      }
     </style>
 </head>
 <body>
@@ -56,7 +59,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand active" href="index.php">
+                <a class="navbar-brand active" href="/">
                     <img src="{% static "images/logo.png" %}" alt="" id="logo">
                 </a>
             </div>
@@ -72,7 +75,7 @@
                           {% endfor %}
                         </ul>
                     </li>
-                    <li><a href="categories/6">Tutorial</a></li>
+                    <li><a href="/categories/6">Tutorial</a></li>
                     <li><a href="#">Consultation</a></li>
                     <li><a class="glyphicon glyphicon-comment" href="{% url "posts:post_contact" %}"></a></li>
                 </ul>
@@ -129,13 +132,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-  $(".content-markdown  ").each(function(){
+  $(".content-markdown").each(function(){
     var content = $(this).text()
     var markedContent = marked(content)
     $(this).html(markedContent)
   })
-  $(".post-detail-item p > img").each(function(){
+  // $(".post-detail-item div > img").each(function(){
+  //   $(this).addClass("img-responsive").attr('alt', '{{instance.title}}');
+  // })
+  $("img").each(function(){
     $(this).addClass("img-responsive").attr('alt', '{{instance.title}}');
+  })
+  $("iframe").each(function(){
+    $(this).attr("width","100%");
   })
 
 })

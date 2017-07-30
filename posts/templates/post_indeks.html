@@ -18,7 +18,11 @@
                             <span class="ratiobox ratio_4_3 box_img">
                                 <span class="ratiobox_content lqd">
                                   {% if obj.image %}
-                                    <img src="{{ obj.image.url }}" alt="{{ obj.title }}">
+                                    {% if 'http' in obj.image.url %}
+                                      <img src="{{ obj.image }}?w=400" alt="{{ obj.title }}">
+                                    {% else %}
+                                      <img src="{{ obj.image.url }}" alt="{{ obj.title }}">
+                                    {% endif %}
                                   {% endif %}
                                 </span>
                             </span>
@@ -41,35 +45,63 @@
                 <nav aria-label="Page navigation" class="center">
                     <ul class="pagination">
                         <li>
-                            <a href="?{{page_request_var}}=1" aria-label="Start" title="Start">
-                                <span aria-hidden="true"><strong>&laquo;</strong></span>
-                            </a>
+                          {% if query%}
+                              <a href="?search={{query}}&{{page_request_var}}=1" aria-label="Start" title="Start">
+                                  <span aria-hidden="true"><strong>&laquo;</strong></span>
+                              </a>
+                            {% else %}
+                              <a href="?{{page_request_var}}=1" aria-label="Start" title="Start">
+                                  <span aria-hidden="true"><strong>&laquo;</strong></span>
+                              </a>
+                          {% endif %}
                         </li>
                         <li>
-                          {% if object_list.has_previous %}
+                          {% if object_list.has_previous and query%}
+                              <a href="?search={{query}}&{{page_request_var}}={{ object_list.previous_page_number }}" aria-label="Previous" title="Previous">
+                                  <span aria-hidden="true"><strong>&lsaquo;</strong></span>
+                              </a>
+                            {% elif object_list.has_previous %}
                             <a href="?{{page_request_var}}={{ object_list.previous_page_number }}" aria-label="Previous" title="Previous">
                                 <span aria-hidden="true"><strong>&lsaquo;</strong></span>
                             </a>
-                            {% endif %}
+                          {% endif %}
                         </li>
                         {% for page in object_list.paginator.page_range %}
-                          {% if forloop.counter ==  object_list.number %}
-                          <li class="active"><a href="?{{page_request_var}}={{ page }}">{{ page }}</a></li>
-                          {% else %}
-                          <li class=""><a href="?{{page_request_var}}={{ page }}">{{ page }}</a></li>
+                          {% if page < max and page > min and page != object_list.number %}
+                            {% if query %}
+                              <li class=""><a href="?search={{query}}&{{page_request_var}}={{ page }}">{{ page }}</a></li>
+                            {% else %}
+                              <li class=""><a href="?{{page_request_var}}={{ page }}">{{ page }}</a></li>
+                            {% endif %}
+                          {% elif page == object_list.number %}
+                            {% if query %}
+                              <li class="active"><a href="?search={{query}}&{{page_request_var}}={{ page }}">{{ page }}</a></li>
+                            {% else %}
+                              <li class="active"><a href="?{{page_request_var}}={{ page }}">{{ page }}</a></li>
+                            {% endif %}
                           {% endif %}
                         {% endfor %}
                         <li>
-                          {% if object_list.has_next %}
-                            <a href="?{{page_request_var}}={{ object_list.next_page_number }}" aria-label="Next" title="Next">
-                                <span aria-hidden="true"><strong>&rsaquo;</strong></span>
-                            </a>
+                          {% if object_list.has_next and query%}
+                              <a href="?search={{query}}&{{page_request_var}}={{ object_list.next_page_number }}" aria-label="Next" title="Next">
+                                  <span aria-hidden="true"><strong>&rsaquo;</strong></span>
+                              </a>
+                            {% elif object_list.has_next %}
+                              <a href="?{{page_request_var}}={{ object_list.next_page_number }}" aria-label="Next" title="Next">
+                                  <span aria-hidden="true"><strong>&rsaquo;</strong></span>
+                              </a>
                           {% endif %}
                         </li>
                         <li>
+                          {% if query %}
+                              <a href="?search={{query}}&{{page_request_var}}={{ object_list.paginator.num_pages }}" aria-label="End" title="End">
+                                  <span aria-hidden="true"><strong>&raquo;</strong></span>
+                              </a>
+                            {% else %}
                             <a href="?{{page_request_var}}={{ object_list.paginator.num_pages }}" aria-label="End" title="End">
                                 <span aria-hidden="true"><strong>&raquo;</strong></span>
                             </a>
+                          {% endif %}
                         </li>
                     </ul>
                 </nav>

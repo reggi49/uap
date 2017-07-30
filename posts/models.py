@@ -46,10 +46,10 @@ class Contact(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=120)
     level_select = (
-        (1,'Parent Level'),
-        (2,'Child Level'),
+        (0,'Parent Level'),
+        (1,'Child Level'),
     )
-    id_level = models.IntegerField(choices=level_select,default=1)
+    id_level = models.IntegerField(choices=level_select,default=0)
     id_parent = models.ForeignKey("self",null=True, blank=True)
 
     def __unicode__(self):
@@ -85,6 +85,7 @@ class Post(models.Model):
     def get_markdown(self):
         content = self.content
         return mark_safe(markdown(content))
+
     @property
     def comments(self):
         instance = self
