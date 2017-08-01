@@ -208,8 +208,8 @@ def post_categories(request,id=None):
     today = timezone.now().date()
     # id_parent = Post.objects.select_related().filter(id_kategori__id_kategori__id_parent=id)
     # print id_parent
-    queryset_list = Post.objects.filter(id_kategori__id_parent=id)
-    print queryset_list
+    # queryset_list = Post.objects.filter(id_kategori__id_parent=id)
+    queryset_list = Post.objects.filter(id_kategori=id)
     categories = Category.objects.filter(id_level= 0)
     if request.user.is_staff or request.user.is_superuser:
         queryset_list = Post.objects.filter(id_kategori=id)

@@ -50,6 +50,26 @@ class PostListAPIView(ListAPIView):
                 ).distinct()
         return queryset_list
 
+class PostCategoriesAPIView(ListAPIView):
+    serializer_class =  PostListSerializer  
+    filter_backends = [SearchFilter,OrderingFilter]
+    search_fields = ['title','content']
+    pagination_class = PostLimitOffsetPagination
+
+    def get_queryset(self, *args, **kwargs):
+        #queryset_list = super(PostListAPIView, self).get_queryset(*args, **kwargs)
+        cat_id = self.kwargs['id']
+        queryset_list = Post.objects.filter(id_kategori=cat_id)
+        # queryset_list = Post.objects.all()
+        query = self.request.GET.get("q")
+        if query:
+            queryset_list = queryset_list.filter(
+                Q(title__icontains=query)|
+                Q(content__icontains=query)|
+                Q(slug__icontains=query)
+                ).distinct()
+        return queryset_list
+
 class PostCreateAPIView(CreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostCreateSerializer
