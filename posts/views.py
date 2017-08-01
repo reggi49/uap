@@ -66,7 +66,7 @@ def post_detail(request,slug):
                 parent_obj = parent_qs.first()
 
         new_comment, created = Comment.objects.get_or_create(
-            user = request.user(1),
+            # user = obj_id,
             content_type = content_type,
             object_id = obj_id,
             content = content_data,

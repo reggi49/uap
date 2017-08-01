@@ -25,7 +25,7 @@ SECRET_KEY = '+8@l(ikpn=k7tb(sfu04#slq(u!#dc(j7b1gxo5l3ts)jtc6f3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['kekerenan.com','127.0.0.1']
+ALLOWED_HOSTS = ['kekerenan.com','127.0.0.1','localhost']
 
 
 # Application definition
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'pagedown',
     'markdown_deux',
     'crispy_forms',
+    'rest_framework',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'

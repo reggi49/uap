@@ -1693,3 +1693,6 @@ progress::-webkit-progress-bar {
     margin-top: 10px;
   }
 }
+.comment-reply{
+  display: none;
+}
