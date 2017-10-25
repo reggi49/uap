@@ -1,4 +1,4 @@
-from django.db.models import Q 
+from django.db.models import Q
 
 from rest_framework.filters import (
     SearchFilter,
@@ -33,7 +33,7 @@ from .serializers import (
     )
 
 class PostListAPIView(ListAPIView):
-    serializer_class =  PostListSerializer  
+    serializer_class =  PostListSerializer
     filter_backends = [SearchFilter,OrderingFilter]
     search_fields = ['title','content']
     pagination_class = PostLimitOffsetPagination
@@ -51,7 +51,7 @@ class PostListAPIView(ListAPIView):
         return queryset_list
 
 class PostCategoriesAPIView(ListAPIView):
-    serializer_class =  PostListSerializer  
+    serializer_class =  PostListSerializer
     filter_backends = [SearchFilter,OrderingFilter]
     search_fields = ['title','content']
     pagination_class = PostLimitOffsetPagination
@@ -74,7 +74,7 @@ class PostCreateAPIView(CreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostCreateSerializer
     permission_classes = [IsAuthenticated]
-    
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 

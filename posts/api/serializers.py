@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from rest_framework import serializers
 
 from posts.models import Post
@@ -13,7 +15,7 @@ class PostCreateSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'user',
-            'title', 
+            'title',
             'id_kategori',
             'image',
             'content',
@@ -24,30 +26,32 @@ class PostCreateSerializer(serializers.ModelSerializer):
 
 class PostListSerializer(serializers.ModelSerializer):
     url = post_detail_url
-    # images = serializers.SerializerMethodField()
+    image = serializers.SerializerMethodField()
     class Meta:
         model = Post
         fields = [
             'url',
             'id',
             'user',
-            'title', 
+            'title',
             'id_kategori',
             'slug',
             'image',
-            # 'images',
             'be_read',
             'draft',
             'publish',
             'updated',
-            'timestamp' 
+            'timestamp'
         ]
-    # def get_images(self, obj):
-    #     try :
-    #         image = obj.image.url
-    #     except:
-    #         image = None
-    #     return image
+    def get_image(self, obj):
+        if 'http' in obj.image.url:
+            try :
+                image = obj.image.url
+            except:
+                image = None
+        else:
+            image = obj.image
+        return image
 
 class PostDetailSerializer(serializers.ModelSerializer):
     url = post_detail_url
@@ -56,15 +60,15 @@ class PostDetailSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'user',
-            'title', 
+            'title',
             'id_kategori',
             'slug',
             'url',
             'image',
-            'content', 
+            'content',
             'be_read',
             'draft',
             'publish',
             'updated',
-            'timestamp' 
+            'timestamp'
         ]

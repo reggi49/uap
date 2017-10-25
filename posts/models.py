@@ -74,7 +74,7 @@ class Post(models.Model):
     objects = PostManager()
 
     def __unicode__(self):
-        return self.title
+        return self.image
 
     def get_absolute_url(self):
         return reverse("posts:post_detail", kwargs= {"slug":self.slug})

@@ -7,6 +7,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.contenttypes.models import ContentType
+from django.utils.datastructures import MultiValueDictKeyError
 
 
 # Create your views here.
@@ -26,6 +27,8 @@ def post_create(request):
     form = PostForm(request.POST or None,request.FILES or None)
     if form.is_valid():
         instance = form.save(commit=False)
+        print request.FILES
+        print request.FILES['image'].name
         instance.user = request.user
         instance.save()
         messages.success(request,"Berhasil Menambah Artikel")
