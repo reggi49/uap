@@ -17,6 +17,7 @@ from .models import Post, SlideShow, Contact, Category
 from .forms import PostForm,ContactForm
 from .utils import get_read_time
 
+
 def post_create(request):
     if not request.user.is_staff or not request.user.is_superuser:
         raise Http404
@@ -31,6 +32,7 @@ def post_create(request):
         print request.FILES['image'].name
         instance.user = request.user
         instance.save()
+        main("-m data/open_nsfw-weights.npy /home/reggi/Desktop/bikini1.jpg")
         messages.success(request,"Berhasil Menambah Artikel")
         return HttpResponseRedirect(instance.get_absolute_url())
     else:
@@ -76,12 +78,18 @@ def post_detail(request,slug):
             parent = parent_obj,
         )
         return HttpResponseRedirect(new_comment.content_object.get_absolute_url())
-
+    if instance.sfw > 0.1:
+        if not request.user.is_staff:
+            safe = "notsafe"
+        else:
+            safe = "safe"
     instance.be_read = instance.be_read+1
     instance.save(update_fields=['be_read'])
     comments = instance.comments
+    print instance.sfw
     context = {
         "title": instance.title,
+        "safe" : safe,
         "instance":instance,
         "share_string": share_string,
         "comments" : comments,

@@ -51,6 +51,8 @@ class Migration(migrations.Migration):
                 ('timestamp', models.DateTimeField(auto_now_add=True)),
                 ('id_kategori', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='posts.Category')),
                 ('user', models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('sfw', models.CharField(max_length=120)),
+                ('nsfw', models.CharField(max_length=120)),
             ],
             options={
                 'ordering': ['-timestamp', '-updated'],

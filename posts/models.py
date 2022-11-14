@@ -70,11 +70,14 @@ class Post(models.Model):
     publish = models.DateField(auto_now = False,auto_now_add=False)
     updated = models.DateTimeField(auto_now=True,auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
+    sfw = models.CharField(max_length=120)
+    nsfw = models.CharField(max_length=120)
+
 
     objects = PostManager()
 
     def __unicode__(self):
-        return self.image
+        return unicode(self.image)
 
     def get_absolute_url(self):
         return reverse("posts:post_detail", kwargs= {"slug":self.slug})
