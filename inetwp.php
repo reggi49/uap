@@ -1,8 +1,8 @@
 <?php
 // include 'db_connect.php';
 $servername = "localhost";
-$username = "bogorsto_root";
-$password = "3123661r";
+$username = "root";
+$password = "password";
 $dbname = "bogorsto_keren";
 
 // Create connection
